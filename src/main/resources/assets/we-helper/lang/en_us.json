@@ -1,0 +1,11 @@
+{
+  "we-helper.editor.dynamicvariabletextfield.categories.we-helper": "§2WE Helper",
+  "we-helper.editor.dynamicvariabletextfield.variables.we-changelog": "WE Changelog",
+  "we-helper.editor.dynamicvariabletextfield.variables.we-changelog.desc": "Returns Changelog of latest version of Wynnic Enchantments",
+  "we-helper.editor.dynamicvariabletextfield.variables.we-version": "WE Version",
+  "we-helper.editor.dynamicvariabletextfield.variables.we-version.desc": "Returns latest Version of Wynnic Enchantments",
+  "we-helper.editor.dynamicvariabletextfield.variables.wynncraft-news": "Wynncraft News",
+  "we-helper.editor.dynamicvariabletextfield.variables.wynncraft-news.desc": "Returns formatted Wynncraft News",
+  "we-helper.editor.dynamicvariabletextfield.variables.wynntils-changelog": "Wynntils Changelog",
+  "we-helper.editor.dynamicvariabletextfield.variables.wynntils-changelog.desc": "Returns Changelog of latest version of Wynntils"
+}
