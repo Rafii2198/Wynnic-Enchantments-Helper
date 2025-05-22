@@ -2,19 +2,17 @@ package top.rafii2198.FMElements;
 
 import de.keksuccino.fancymenu.customization.placeholder.DeserializedPlaceholderString;
 import de.keksuccino.fancymenu.customization.placeholder.Placeholder;
+import java.util.List;
 import net.minecraft.client.resource.language.I18n;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import top.rafii2198.RemoteData.WynnicEnchantmentsProject;
 
-import java.util.List;
-
 public class WynnicVersionPlaceholder extends Placeholder {
 
-    public WynnicVersionPlaceholder(){
+    public WynnicVersionPlaceholder() {
         super("we-version");
     }
-
 
     @Override
     public String getReplacementFor(DeserializedPlaceholderString deserializedPlaceholderString) {

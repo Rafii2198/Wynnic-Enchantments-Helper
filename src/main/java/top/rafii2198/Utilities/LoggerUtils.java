@@ -6,7 +6,11 @@ import org.slf4j.LoggerFactory;
 public class LoggerUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger("Wynnic Enchantments Helper");
 
-    public static void info(String Message){
+    public static void info(String Message) {
         LOGGER.info(Message);
+    }
+
+    public static void error(String Message) {
+        LOGGER.error(Message);
     }
 }

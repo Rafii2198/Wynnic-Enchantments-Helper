@@ -7,5 +7,10 @@
   "we-helper.editor.dynamicvariabletextfield.variables.wynncraft-news": "Wynncraft News",
   "we-helper.editor.dynamicvariabletextfield.variables.wynncraft-news.desc": "Returns formatted Wynncraft News",
   "we-helper.editor.dynamicvariabletextfield.variables.wynntils-changelog": "Wynntils Changelog",
-  "we-helper.editor.dynamicvariabletextfield.variables.wynntils-changelog.desc": "Returns Changelog of latest version of Wynntils"
+  "we-helper.editor.dynamicvariabletextfield.variables.wynntils-changelog.desc": "Returns Changelog of latest version of Wynntils",
+  "we-helper.error.modrinth.changelog": "Unavailable",
+  "we-helper.editor.dynamicvariabletextfield.variables.wynntils-version": "Wynntils Version",
+  "we-helper.editor.dynamicvariabletextfield.variables.wynntils-version.desc": "Returns Version of latest version of Wynntils",
+  "we-helper.editor.dynamicvariabletextfield.variables.wynncraft-wynncraft-remove-badge-path": "Remove Wynncraft Badge Path",
+  "we-helper.editor.dynamicvariabletextfield.variables.wynncraft-wynncraft-remove-badge-path.desc": "Removes path from Wynncraft badges leaving only their name"
 }

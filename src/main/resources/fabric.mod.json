@@ -2,18 +2,18 @@
 	"schemaVersion": 1,
 	"id": "we-helper",
 	"version": "${version}",
-	"name": "we-helper",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"name": "Wynnic Enchantments Helper",
+	"description": "Helps <green>Wynnic Enchantments</green> modpack by adding various things!\n\nWith use of Jsoup: https://jsoup.org/",
 	"authors": [
-		"Me!"
+		"Rafii2198"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://modrinth.com/mod/we-helper",
+		"sources": "https://github.com/Rafii2198/Wynnic-Enchantments-Helper"
 	},
-	"license": "CC0-1.0",
+	"license": "MIT",
 	"icon": "assets/we-helper/icon.png",
-	"environment": "*",
+	"environment": "client",
 	"entrypoints": {
 		"main": [
 			"top.rafii2198.Wehelper"
@@ -26,9 +26,12 @@
 		"fabricloader": ">=0.16.14",
 		"minecraft": "~1.21.4",
 		"java": ">=21",
-		"fabric-api": "*"
+		"fabric-api": "*",
+		"fancymenu": ">=3.4.6"
 	},
-	"suggests": {
-		"another-mod": "*"
+	"custom": {
+		"modmenu": {
+			"update_checker": false
+		}
 	}
 }

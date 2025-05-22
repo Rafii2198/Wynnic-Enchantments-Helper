@@ -6,32 +6,31 @@ import java.util.List;
 import net.minecraft.client.resource.language.I18n;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import top.rafii2198.RemoteData.WynncraftNews;
+import top.rafii2198.RemoteData.WynntilsProject;
 
-public class WynncraftNewsPlaceholder extends Placeholder {
-
-    public WynncraftNewsPlaceholder() {
-        super("wynncraft-news");
+public class WynntilsVersionPlaceholder extends Placeholder {
+    public WynntilsVersionPlaceholder() {
+        super("wynntils-version");
     }
 
     @Override
     public String getReplacementFor(DeserializedPlaceholderString deserializedPlaceholderString) {
-        return WynncraftNews.getNews();
+        return WynntilsProject.getVersion();
     }
 
     @Override
     public @Nullable List<String> getValueNames() {
-        return null;
+        return List.of();
     }
 
     @Override
     public @NotNull String getDisplayName() {
-        return I18n.translate("we-helper.editor.dynamicvariabletextfield.variables.wynncraft-news");
+        return I18n.translate("we-helper.editor.dynamicvariabletextfield.variables.wynntils-version");
     }
 
     @Override
     public @Nullable List<String> getDescription() {
-        return List.of(I18n.translate("we-helper.editor.dynamicvariabletextfield.variables.wynncraft-news.desc"));
+        return List.of(I18n.translate("we-helper.editor.dynamicvariabletextfield.variables.wynntils-version.desc"));
     }
 
     @Override
