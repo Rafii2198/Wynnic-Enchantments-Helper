@@ -21,27 +21,27 @@ public enum FlatBarTexture {
         return resource;
     }
 
-    public int X1() {
+    public float X1() {
         return 0;
     }
 
-    public int X2() {
-        return x;
+    public float X2() {
+        return 1;
     }
 
-    public int backgroundY1() {
-        return y * this.level;
+    public float backgroundY1() {
+        return (float) (y * this.level) / (values().length * y);
     }
 
-    public int backgroundY2() {
-        return (y * this.level + y / 2);
+    public float backgroundY2() {
+        return (y * this.level + (float) y / 2) / (values().length * y);
     }
 
-    public int foregroundY1() {
-        return y * (this.level + 1) - y / 2;
+    public float foregroundY1() {
+        return (y * (this.level + 1) - (float) y / 2) / (values().length * y);
     }
 
-    public int foregroundY2() {
-        return y * (this.level + 1);
+    public float foregroundY2() {
+        return (float) (y * (this.level + 1)) / (values().length * y);
     }
 }

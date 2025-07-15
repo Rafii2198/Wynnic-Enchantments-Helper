@@ -10,8 +10,10 @@ import com.wynntils.core.persisted.config.Config;
 import com.wynntils.core.text.StyledText;
 import com.wynntils.utils.MathUtils;
 import com.wynntils.utils.colors.CommonColors;
+import com.wynntils.utils.colors.CustomColor;
 import com.wynntils.utils.render.RenderUtils;
 import com.wynntils.utils.render.buffered.BufferedFontRenderer;
+import com.wynntils.utils.render.buffered.BufferedRenderUtils;
 import com.wynntils.utils.render.type.HorizontalAlignment;
 import com.wynntils.utils.render.type.TextShadow;
 import com.wynntils.utils.render.type.VerticalAlignment;
@@ -43,26 +45,55 @@ public class PlayerInfoOverlay extends WEOverlay {
     @Persisted
     private final Config<Float> degrees = new Config<>(-25f);
 
+    @Persisted(i18nKey = "feature.wynntils.gameBarsOverlay.overlay.baseBar.animationTime")
+    private final Config<Float> animationTime = new Config<>(2f);
+
+    @Persisted(i18nKey = "overlay.wynntils.textOverlay.fontScale")
+    private final Config<Float> fontScale = new Config<>(1f);
+
+    private CappedValue health;
+    private CappedValue mana;
+    private float progressH;
+    private float progressM;
+
     public PlayerInfoOverlay() {
         super(
                 new OverlayPosition(
-                        290,
-                        -500,
+                        240,
+                        -400,
                         VerticalAlignment.TOP,
                         HorizontalAlignment.RIGHT,
                         OverlayPosition.AnchorSection.TOP_RIGHT),
-                new OverlaySize(119, 30));
+                new OverlaySize(120, 33));
+        this.health = CappedValue.EMPTY;
+        this.mana = CappedValue.EMPTY;
+        this.progressH = 0;
+        this.progressM = 0;
+    }
+
+    public void tick() {
+        if (Models.WorldState.onWorld() && this.userEnabled.get()) {
+            health = Models.CharacterStats.getHealth().orElse(CappedValue.EMPTY);
+            mana = Models.CharacterStats.getMana().orElse(CappedValue.EMPTY);
+            if (animationTime.get() == 0f) {
+                progressH = (float) health.getProgress();
+                progressM = (float) mana.getProgress();
+            } else {
+                progressH -= (float) ((animationTime.get() * 0.15f) * (progressH - health.getProgress()));
+                progressM -= (float) ((animationTime.get() * 0.15f) * (progressM - mana.getProgress()));
+            }
+        }
     }
 
     @Override
     public void render(
             GuiGraphics guiGraphics, MultiBufferSource multiBufferSource, DeltaTracker deltaTracker, Window window) {
         if (!Models.WorldState.onWorld()) return;
-        float calculatedRatio = MathUtils.clamp(ratio.get(), 0, 100) / 100;
 
         if (renderPlayer.get()) {
-            RenderUtils.drawRect(
+            BufferedRenderUtils.drawRect(
                     guiGraphics.pose(),
+                    multiBufferSource,
                     CommonColors.BLACK,
                     getRenderX() - getHeight(),
                     getRenderY(),
@@ -75,89 +106,7 @@ public class PlayerInfoOverlay extends WEOverlay {
             RenderUtils.clearMask();
         }
 
-        CappedValue HealthValue = Models.CharacterStats.getHealth().orElse(CappedValue.EMPTY);
-        CappedValue ManaValue = Models.CharacterStats.getMana().orElse(CappedValue.EMPTY);
-
-        WERenderUtils.drawColoredFlatProgressBar(
-                guiGraphics.pose(),
-                multiBufferSource,
-                texture.get(),
-                CommonColors.RED,
-                getRenderX(),
-                getRenderY(),
-                getRenderX() + getWidth(),
-                getRenderY() + getHeight() * calculatedRatio,
-                (float) HealthValue.getProgress());
-        WERenderUtils.drawColoredFlatProgressBar(
-                guiGraphics.pose(),
-                multiBufferSource,
-                texture.get(),
-                CommonColors.CYAN,
-                getRenderX(),
-                getRenderY() + getHeight() * calculatedRatio,
-                getRenderX() + getWidth(),
-                getRenderY() + getHeight(),
-                (float) ManaValue.getProgress());
-
-        //        RenderUtils.drawColoredProgressBar(
-        //                guiGraphics.pose(),
-        //                Texture.UNIVERSAL_BAR,
-        //                CommonColors.RED,
-        //                getRenderX(),
-        //                getRenderY(),
-        //                getRenderX() + getWidth(),
-        //                getRenderY() + getHeight() * calculatedRatio,
-        //                0,
-        //                texture.getTextureY1(),
-        //                Texture.UNIVERSAL_BAR.width(),
-        //                texture.getTextureY2(),
-        //                (float) HealthValue.getProgress());
-        //
-        //        RenderUtils.drawColoredProgressBar(
-        //                guiGraphics.pose(),
-        //                Texture.UNIVERSAL_BAR,
-        //                CommonColors.LIGHT_BLUE,
-        //                getRenderX(),
-        //                getRenderY() + getHeight() * calculatedRatio,
-        //                getRenderX() + getWidth(),
-        //                getRenderY() + getHeight(),
-        //                0,
-        //                texture.getTextureY1(),
-        //                Texture.UNIVERSAL_BAR.width(),
-        //                texture.getTextureY2(),
-        //                (float) ManaValue.getProgress());
-
-        BufferedFontRenderer.getInstance()
-                .renderAlignedTextInBox(
-                        guiGraphics.pose(),
-                        multiBufferSource,
-                        StyledText.fromString(String.format("%s ❤ %s", HealthValue.current(), HealthValue.max())),
-                        getRenderX(),
-                        getRenderX() + getWidth(),
-                        getRenderY(),
-                        getRenderY() + getHeight() * calculatedRatio,
-                        0,
-                        CommonColors.WHITE,
-                        HorizontalAlignment.CENTER,
-                        VerticalAlignment.MIDDLE,
-                        TextShadow.OUTLINE,
-                        calculatedRatio + getHeight() / 100);
-
-        BufferedFontRenderer.getInstance()
-                .renderAlignedTextInBox(
-                        guiGraphics.pose(),
-                        multiBufferSource,
-                        StyledText.fromString(String.format("%s ✺ %s", ManaValue.current(), ManaValue.max())),
-                        getRenderX(),
-                        getRenderX() + getWidth(),
-                        getRenderY() + getHeight() * calculatedRatio,
-                        getRenderY() + getHeight(),
-                        0,
-                        CommonColors.WHITE,
-                        HorizontalAlignment.CENTER,
-                        VerticalAlignment.MIDDLE,
-                        TextShadow.OUTLINE,
-                        1 - calculatedRatio + getHeight() / 100);
+        renderBarsAndText(guiGraphics, multiBufferSource);
     }
 
     private void renderPlayerEntity(GuiGraphics guiGraphics, float tick) {
@@ -187,6 +136,106 @@ public class PlayerInfoOverlay extends WEOverlay {
         guiGraphics.flush();
         guiGraphics.pose().popPose();
         Lighting.setupFor3DItems();
+    }
+
+    private void renderBarsAndText(GuiGraphics guiGraphics, MultiBufferSource multiBufferSource) {
+        float calculatedRatio = MathUtils.clamp(ratio.get(), 0, 100) / 100;
+        float font = fontScale.get() * (calculatedRatio + getHeight() / 100);
+
+        BufferedRenderUtils.drawRect(
+                guiGraphics.pose(),
+                multiBufferSource,
+                CommonColors.BLACK,
+                getRenderX() - 1f,
+                getRenderY(),
+                0,
+                getWidth() + 1f,
+                getHeight());
+
+        WERenderUtils.drawColoredFlatProgressBar(
+                guiGraphics.pose(),
+                multiBufferSource,
+                texture.get(),
+                new CustomColor(255, 0, 54),
+                getRenderX(),
+                getRenderY() + 1,
+                getRenderX() + getWidth() - 1f,
+                getRenderY() + getHeight() * calculatedRatio,
+                progressH);
+        WERenderUtils.drawColoredFlatProgressBar(
+                guiGraphics.pose(),
+                multiBufferSource,
+                texture.get(),
+                new CustomColor(0, 182, 255),
+                getRenderX(),
+                getRenderY() + getHeight() * calculatedRatio + 1f,
+                getRenderX() + getWidth() - 1,
+                getRenderY() + getHeight() - 1,
+                progressM);
+
+        BufferedFontRenderer.getInstance()
+                .renderAlignedTextInBox(
+                        guiGraphics.pose(),
+                        multiBufferSource,
+                        StyledText.fromString(String.valueOf(health.current())),
+                        getRenderX() + (font * 2),
+                        getRenderX() + getWidth() - 1 - (font * 2),
+                        getRenderY() + 2,
+                        getRenderY() + getHeight() * calculatedRatio + 1,
+                        0,
+                        CommonColors.WHITE,
+                        HorizontalAlignment.RIGHT,
+                        VerticalAlignment.MIDDLE,
+                        TextShadow.OUTLINE,
+                        font);
+
+        BufferedFontRenderer.getInstance()
+                .renderAlignedTextInBox(
+                        guiGraphics.pose(),
+                        multiBufferSource,
+                        StyledText.fromString(String.valueOf(health.max())),
+                        getRenderX() + (font * 2),
+                        getRenderX() + getWidth() - 1 - (font * 2),
+                        getRenderY() + 2,
+                        getRenderY() + getHeight() * calculatedRatio + 1,
+                        0,
+                        CommonColors.WHITE,
+                        HorizontalAlignment.LEFT,
+                        VerticalAlignment.MIDDLE,
+                        TextShadow.OUTLINE,
+                        calculatedRatio + getHeight() / 100);
+
+        BufferedFontRenderer.getInstance()
+                .renderAlignedTextInBox(
+                        guiGraphics.pose(),
+                        multiBufferSource,
+                        StyledText.fromString(String.valueOf(mana.current())),
+                        getRenderX() + (font * 2),
+                        getRenderX() + getWidth() - 1 - (font * 2),
+                        getRenderY() + getHeight() * calculatedRatio + 1,
+                        getRenderY() + getHeight(),
+                        0,
+                        CommonColors.WHITE,
+                        HorizontalAlignment.RIGHT,
+                        VerticalAlignment.MIDDLE,
+                        TextShadow.OUTLINE,
+                        (1 - calculatedRatio + getHeight() / 100) * fontScale.get());
+
+        BufferedFontRenderer.getInstance()
+                .renderAlignedTextInBox(
+                        guiGraphics.pose(),
+                        multiBufferSource,
+                        StyledText.fromString(String.valueOf(mana.max())),
+                        getRenderX() + (font * 2),
+                        getRenderX() + getWidth() - 1 - (font * 2),
+                        getRenderY() + getHeight() * calculatedRatio + 1,
+                        getRenderY() + getHeight(),
+                        0,
+                        CommonColors.WHITE,
+                        HorizontalAlignment.LEFT,
+                        VerticalAlignment.MIDDLE,
+                        TextShadow.OUTLINE,
+                        (1 - calculatedRatio + getHeight() / 100) * fontScale.get());
     }
 
     private record RenderedPlayerProperties(

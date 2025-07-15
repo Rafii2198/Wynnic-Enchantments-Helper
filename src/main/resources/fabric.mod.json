@@ -27,7 +27,8 @@
 		"minecraft": "1.21.4",
 		"java": ">=21",
 		"fabric-api": "*",
-		"fancymenu": ">=3.4.6"
+		"fancymenu": ">=3.4.6",
+		"wynntils": ">=3.1.0"
 	},
 	"custom": {
 		"modmenu": {

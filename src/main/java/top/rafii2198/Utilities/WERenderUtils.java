@@ -37,16 +37,26 @@ public class WERenderUtils {
                 texture.X2(),
                 texture.backgroundY2());
 
-        //                float progressLeft = progress;
-        //                while (progressLeft > 0) {
-        //                    drawColoredBarForeground(poseStack, bufferSource, texture.getResource(),
-        // color,x1,y1,x2,y2, texture.X1(),
-        //         texture.foregroundY1(), texture.X2(), texture.foregroundY2(), progressLeft);
-        //                    progressLeft -= 1;
-        //                    if (progressLeft < 0) break;
-        //                    color.hueShift(0.1f);
-        //                }
-
+        float progressLeft = progress;
+        while (progressLeft > 0) {
+            drawColoredBarForeground(
+                    poseStack,
+                    bufferSource,
+                    texture.getResource(),
+                    color,
+                    x1,
+                    y1,
+                    x2,
+                    y2,
+                    texture.X1(),
+                    texture.foregroundY1(),
+                    texture.X2(),
+                    texture.foregroundY2(),
+                    progressLeft);
+            progressLeft -= 1;
+            if (progressLeft < 0) break;
+            color = color.hueShift(0.085f);
+        }
     }
 
     private static void drawColoredBarBackground(
@@ -58,10 +68,10 @@ public class WERenderUtils {
             float y1,
             float x2,
             float y2,
-            int textureX1,
-            int textureY1,
-            int textureX2,
-            int textureY2) {
+            float textureX1,
+            float textureY1,
+            float textureX2,
+            float textureY2) {
         Matrix4f matrix = poseStack.last().pose();
         VertexConsumer buffer = bufferSource.getBuffer(CustomRenderType.getPositionColorTextureQuad(resourceLocation));
 
@@ -80,17 +90,17 @@ public class WERenderUtils {
             float y1,
             float x2,
             float y2,
-            int textureX1,
-            int textureY1,
-            int textureX2,
-            int textureY2,
+            float textureX1,
+            float textureY1,
+            float textureX2,
+            float textureY2,
             float progress) {
         Matrix4f matrix = poseStack.last().pose();
         VertexConsumer buffer = bufferSource.getBuffer(CustomRenderType.getPositionColorTextureQuad(resourceLocation));
 
-        float clampedProgress = MathUtils.clamp(progress, 0, 1);
-        float tx2 = textureX2 - (1f - clampedProgress) * (textureX2 - textureX1);
-        x2 = x2 - (1f - clampedProgress) * (x2 - x1);
+        float adjustedProgress = MathUtils.clamp(progress, 0, 1);
+        float tx2 = textureX2 - (1f - adjustedProgress) * (textureX2 - textureX1);
+        x2 = x2 - (1f - adjustedProgress) * (x2 - x1);
 
         buffer.addVertex(matrix, x1, y1, 0).setUv(textureX1, textureY1).setColor(color.asInt());
         buffer.addVertex(matrix, x1, y2, 0).setUv(textureX1, textureY2).setColor(color.asInt());
