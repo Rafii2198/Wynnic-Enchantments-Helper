@@ -3,7 +3,7 @@
 	"package": "top.rafii2198.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
-		"ExampleMixin"
+      "WynntilsFeatureManagerMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

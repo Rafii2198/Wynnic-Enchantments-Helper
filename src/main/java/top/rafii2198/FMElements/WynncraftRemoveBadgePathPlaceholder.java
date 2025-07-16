@@ -3,7 +3,7 @@ package top.rafii2198.FMElements;
 import de.keksuccino.fancymenu.customization.placeholder.DeserializedPlaceholderString;
 import de.keksuccino.fancymenu.customization.placeholder.Placeholder;
 import java.util.List;
-import net.minecraft.client.resource.language.I18n;
+import net.minecraft.client.resources.language.I18n;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -26,19 +26,18 @@ public class WynncraftRemoveBadgePathPlaceholder extends Placeholder {
 
     @Override
     public @NotNull String getDisplayName() {
-        return I18n.translate(
-                "we-helper.editor.dynamicvariabletextfield.variables.wynncraft-wynncraft-remove-badge-path");
+        return I18n.get("we-helper.editor.dynamicvariabletextfield.variables.wynncraft-wynncraft-remove-badge-path");
     }
 
     @Override
     public @Nullable List<String> getDescription() {
-        return List.of(I18n.translate(
+        return List.of(I18n.get(
                 "we-helper.editor.dynamicvariabletextfield.variables.wynncraft-wynncraft-remove-badge-path.desc"));
     }
 
     @Override
     public String getCategory() {
-        return I18n.translate("we-helper.editor.dynamicvariabletextfield.categories.we-helper");
+        return I18n.get("we-helper.editor.dynamicvariabletextfield.categories.we-helper");
     }
 
     @Override

@@ -36,14 +36,26 @@ repositories {
 			includeGroup "maven.modrinth"
 		}
 	}
+	maven { url = "https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1" }
+	maven {
+		name 'IzzelAliz Maven'
+		url 'https://maven.izzel.io/releases/'
+	}
+	maven {
+		url 'https://raw.githubusercontent.com/Fuzss/modresources/main/maven/'
+		content {
+			includeGroup 'fuzs.forgeconfigapiport'
+		}
+	}
 }
 
 dependencies {
 	// To change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-	include implementation("org.jsoup:jsoup:1.20.1")
+	mappings loom.officialMojangMappings()
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+
+	modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:1.2.1")
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
@@ -51,6 +63,14 @@ dependencies {
 	modImplementation "maven.modrinth:Wq5SjeWM:${project.fm_version}" // Fancy Menu
 	modImplementation "maven.modrinth:J81TRJWm:${project.konkrete_version}" // Konkrete
 	modImplementation "maven.modrinth:CVT4pFB2:${project.melody_version}" // Melody
+	modImplementation "maven.modrinth:dU5Gb9Ab:${project.wynntils_version}" // Wynntils
+	include implementation("org.jsoup:jsoup:1.20.1") // Jsoup
+
+	// Modern UI
+//	modApi "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${fcap_vesrion}"
+//	implementation "icyllis.modernui:ModernUI-Core:${modernui_core}"
+//	implementation "icyllis.modernui:ModernUI-Markdown:${modernui_core}"
+//	modImplementation("icyllis.modernui:ModernUI-Fabric:${minecraft_version}-${modernui_version}")
 	
 }
 
@@ -64,6 +84,14 @@ processResources {
 
 tasks.withType(JavaCompile).configureEach {
 	it.options.release = 21
+}
+
+loom {
+	runs {
+		configureEach {
+			vmArgs "-Dmodernui.resource.pack=true"
+		}
+	}
 }
 
 java {
