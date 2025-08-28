@@ -2,6 +2,7 @@ package top.rafii2198.FMElements;
 
 import de.keksuccino.fancymenu.customization.placeholder.DeserializedPlaceholderString;
 import de.keksuccino.fancymenu.customization.placeholder.Placeholder;
+import java.util.LinkedHashMap;
 import java.util.List;
 import net.minecraft.client.resources.language.I18n;
 import org.jetbrains.annotations.NotNull;
@@ -42,9 +43,8 @@ public class WynncraftRemoveBadgePathPlaceholder extends Placeholder {
 
     @Override
     public @NotNull DeserializedPlaceholderString getDefaultPlaceholderString() {
-        DeserializedPlaceholderString dps = new DeserializedPlaceholderString();
-        dps.placeholderIdentifier = this.getIdentifier();
-        dps.values.put("path", "nextgen/badges/rank_hero.svg");
-        return dps;
+        LinkedHashMap<String, String> values = new LinkedHashMap<>();
+        values.put("path", "nextgen/badges/rank_hero.svg");
+        return new DeserializedPlaceholderString(this.getIdentifier(), values, "");
     }
 }

@@ -41,8 +41,6 @@ public class WynnicChangelogPlaceholder extends Placeholder {
 
     @Override
     public @NotNull DeserializedPlaceholderString getDefaultPlaceholderString() {
-        DeserializedPlaceholderString dps = new DeserializedPlaceholderString();
-        dps.placeholderIdentifier = this.getIdentifier();
-        return dps;
+        return new DeserializedPlaceholderString(this.getIdentifier(), null, "");
     }
 }
