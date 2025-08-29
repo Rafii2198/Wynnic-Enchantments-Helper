@@ -65,12 +65,6 @@ dependencies {
 	modImplementation "maven.modrinth:CVT4pFB2:${project.melody_version}" // Melody
 	modImplementation "maven.modrinth:dU5Gb9Ab:${project.wynntils_version}" // Wynntils
 	include implementation("org.jsoup:jsoup:1.20.1") // Jsoup
-
-	// Modern UI
-//	modApi "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${fcap_vesrion}"
-//	implementation "icyllis.modernui:ModernUI-Core:${modernui_core}"
-//	implementation "icyllis.modernui:ModernUI-Markdown:${modernui_core}"
-//	modImplementation("icyllis.modernui:ModernUI-Fabric:${minecraft_version}-${modernui_version}")
 	
 }
 
