@@ -47,6 +47,18 @@ repositories {
 			includeGroup 'fuzs.forgeconfigapiport'
 		}
 	}
+    // Crystal Nest repository where Fancy Entity Renderer is hosted.
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = "Crystal Nest"
+                url = "https://maven.crystalnest.it"
+            }
+        }
+        filter {
+            includeGroup "it.crystalnest"
+        }
+    }
 }
 
 dependencies {
@@ -64,7 +76,9 @@ dependencies {
 	modImplementation "maven.modrinth:J81TRJWm:${project.konkrete_version}" // Konkrete
 	modImplementation "maven.modrinth:CVT4pFB2:${project.melody_version}" // Melody
 	modImplementation "maven.modrinth:dU5Gb9Ab:${project.wynntils_version}" // Wynntils
-	include implementation("org.jsoup:jsoup:1.20.1") // Jsoup
+    modImplementation "it.crystalnest:fancy-entity-renderer-fabric:$minecraft_version-$fer_version" // Fancy Entity Renderer
+
+    include implementation("org.jsoup:jsoup:1.20.1") // Jsoup
 	
 }
 

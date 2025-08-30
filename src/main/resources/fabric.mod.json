@@ -28,7 +28,8 @@
 		"java": ">=21",
 		"fabric-api": "*",
 		"fancymenu": ">=3.4.6",
-		"wynntils": ">=3.1.0"
+		"wynntils": ">=3.1.0",
+        "fancy_entity_renderer": "^0.3.2"
 	},
 	"custom": {
 		"modmenu": {

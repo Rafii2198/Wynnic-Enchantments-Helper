@@ -1,6 +1,5 @@
 package top.rafii2198.wynntils.overlays;
 
-import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.platform.Window;
 import com.wynntils.core.components.Models;
 import com.wynntils.core.consumers.overlays.OverlayPosition;
@@ -18,12 +17,13 @@ import com.wynntils.utils.render.type.HorizontalAlignment;
 import com.wynntils.utils.render.type.TextShadow;
 import com.wynntils.utils.render.type.VerticalAlignment;
 import com.wynntils.utils.type.CappedValue;
+import it.crystalnest.fancy_entity_renderer.api.Rotation;
+import it.crystalnest.fancy_entity_renderer.api.entity.player.FancyPlayerWidget;
+import java.util.List;
 import net.minecraft.client.DeltaTracker;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Pose;
 import top.rafii2198.Utilities.WERenderUtils;
 import top.rafii2198.wynntils.core.WEOverlay;
 import top.rafii2198.wynntils.core.type.FlatBarTexture;
@@ -50,6 +50,9 @@ public class PlayerInfoOverlay extends WEOverlay {
 
     @Persisted(i18nKey = "overlay.wynntils.textOverlay.fontScale")
     private final Config<Float> fontScale = new Config<>(1f);
+
+    private final FancyPlayerWidget renderWidget =
+            new FancyPlayerWidget(0, 0, 1, 1).copyLocalPlayer().setMoving(true);
 
     private CappedValue health;
     private CappedValue mana;
@@ -102,40 +105,27 @@ public class PlayerInfoOverlay extends WEOverlay {
                     getHeight());
             RenderUtils.createRectMask(
                     guiGraphics.pose(), getRenderX() - getHeight(), getRenderY(), getHeight(), getHeight());
-            renderPlayerEntity(guiGraphics, deltaTracker.getGameTimeDeltaPartialTick(false));
+            renderPlayerEntity(guiGraphics);
             RenderUtils.clearMask();
         }
 
         renderBarsAndText(guiGraphics, multiBufferSource);
     }
 
-    private void renderPlayerEntity(GuiGraphics guiGraphics, float tick) {
-        Minecraft instance = Minecraft.getInstance();
-        LivingEntity playerEntity = instance.player;
-        RenderedPlayerProperties properties = null;
-        if (rotatePlayer.get()) {
-            properties =
-                    new RenderedPlayerProperties(playerEntity, degrees.get().floatValue());
-            properties.apply(playerEntity);
-        }
-
-        float scale = (float) (getHeight() * 0.8);
-
+    private void renderPlayerEntity(GuiGraphics guiGraphics) {
         guiGraphics.pose().pushPose();
-        guiGraphics.pose().translate(getRenderX() - getHeight() / 2, getRenderY() + getHeight() * 1.75, 50.0);
-        guiGraphics.pose().scale(scale, scale * -1, scale);
-        guiGraphics.flush();
-        Lighting.setupForEntityInInventory();
-        EntityRenderDispatcher dispatcher = instance.getEntityRenderDispatcher();
-        dispatcher.setRenderShadow(false);
-        guiGraphics.drawSpecial((MultiBufferSource bufferSource) ->
-                dispatcher.render(playerEntity, 0, 0, 0, tick, guiGraphics.pose(), bufferSource, 0xF000F0));
-        if (properties != null) {
-            properties.restore(playerEntity);
-        }
-        guiGraphics.flush();
+        renderWidget.setHeight((int) (getHeight() * 0.8 * FancyPlayerWidget.PLAYER_RENDER_HEIGHT));
+        renderWidget.setX((int) (getRenderX() - getHeight() / 2));
+        renderWidget.setY((int) (getRenderY() + getHeight() * 0.2));
+
+        renderWidget.setAllowedPoses(List.of(Pose.STANDING, Pose.CROUCHING));
+        renderWidget.mimicLocalPlayer();
+        if (rotatePlayer.get()) {
+            renderWidget.setBodyRotation(Rotation.createFromDeg(0, degrees.get(), 0));
+        } else renderWidget.mimicLocalPlayer();
+
+        renderWidget.render(guiGraphics, 0, 0, 0);
         guiGraphics.pose().popPose();
-        Lighting.setupFor3DItems();
     }
 
     private void renderBarsAndText(GuiGraphics guiGraphics, MultiBufferSource multiBufferSource) {
@@ -236,29 +226,5 @@ public class PlayerInfoOverlay extends WEOverlay {
                         VerticalAlignment.MIDDLE,
                         TextShadow.OUTLINE,
                         (1 - calculatedRatio + getHeight() / 100) * fontScale.get());
-    }
-
-    private record RenderedPlayerProperties(
-            float yBodyRot, float yHeadRot, float yBodyRot0, float yHeadRot0, boolean isInvisible, float degrees) {
-
-        public RenderedPlayerProperties(LivingEntity player, float degrees) {
-            this(player.yBodyRot, player.yHeadRot, player.yBodyRotO, player.yHeadRotO, player.isInvisible(), degrees);
-        }
-
-        public void restore(LivingEntity player) {
-            player.yBodyRot = this.yBodyRot;
-            player.yHeadRot = this.yHeadRot;
-            player.yBodyRotO = this.yBodyRot0;
-            player.yHeadRotO = this.yHeadRot0;
-            player.setInvisible(this.isInvisible);
-        }
-
-        public void apply(LivingEntity player) {
-            player.yBodyRot = this.degrees;
-            player.yHeadRot = this.degrees;
-            player.yBodyRotO = this.degrees;
-            player.yHeadRotO = this.degrees;
-            player.setInvisible(false);
-        }
     }
 }
