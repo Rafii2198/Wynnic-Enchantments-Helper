@@ -20,6 +20,12 @@ public class WEFeature extends Feature {
 
     @Override
     public String getTranslatedDescription() {
-        return "§2WYNNIC ENCHANTMENTS§r\n" + I18n.get("we-helper.feature." + getTranslationKeyName() + ".description");
+        return "§2WYNNIC ENCHANTMENTS§r\n"
+                + I18n.get("we-helper.we-feature." + getTranslationKeyName() + ".description");
+    }
+
+    @Override
+    public String getTypeName() {
+        return "we-feature";
     }
 }
