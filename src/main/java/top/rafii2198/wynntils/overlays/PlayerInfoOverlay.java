@@ -62,11 +62,11 @@ public class PlayerInfoOverlay extends WEOverlay {
     public PlayerInfoOverlay() {
         super(
                 new OverlayPosition(
-                        240,
-                        -400,
+                        10,
+                        22,
                         VerticalAlignment.TOP,
                         HorizontalAlignment.RIGHT,
-                        OverlayPosition.AnchorSection.TOP_RIGHT),
+                        OverlayPosition.AnchorSection.BOTTOM_LEFT),
                 new OverlaySize(120, 33));
         this.health = CappedValue.EMPTY;
         this.mana = CappedValue.EMPTY;
