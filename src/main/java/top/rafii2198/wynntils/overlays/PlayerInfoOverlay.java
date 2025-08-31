@@ -122,7 +122,7 @@ public class PlayerInfoOverlay extends WEOverlay {
         renderWidget.mimicLocalPlayer();
         if (rotatePlayer.get()) {
             renderWidget.setBodyRotation(Rotation.createFromDeg(0, degrees.get(), 0));
-        } else renderWidget.mimicLocalPlayer();
+        }
 
         renderWidget.render(guiGraphics, 0, 0, 0);
         guiGraphics.pose().popPose();
@@ -167,7 +167,7 @@ public class PlayerInfoOverlay extends WEOverlay {
                 .renderAlignedTextInBox(
                         guiGraphics.pose(),
                         multiBufferSource,
-                        StyledText.fromString(String.valueOf(health.current())),
+                        new StyledText[] {StyledText.fromString(String.valueOf(health.current()))},
                         getRenderX() + (font * 2),
                         getRenderX() + getWidth() - 1 - (font * 2),
                         getRenderY() + 2,
@@ -183,7 +183,7 @@ public class PlayerInfoOverlay extends WEOverlay {
                 .renderAlignedTextInBox(
                         guiGraphics.pose(),
                         multiBufferSource,
-                        StyledText.fromString(String.valueOf(health.max())),
+                        new StyledText[] {StyledText.fromString(String.valueOf(health.max()))},
                         getRenderX() + (font * 2),
                         getRenderX() + getWidth() - 1 - (font * 2),
                         getRenderY() + 2,
@@ -199,7 +199,7 @@ public class PlayerInfoOverlay extends WEOverlay {
                 .renderAlignedTextInBox(
                         guiGraphics.pose(),
                         multiBufferSource,
-                        StyledText.fromString(String.valueOf(mana.current())),
+                        new StyledText[] {StyledText.fromString(String.valueOf(mana.current()))},
                         getRenderX() + (font * 2),
                         getRenderX() + getWidth() - 1 - (font * 2),
                         getRenderY() + getHeight() * calculatedRatio + 1,
@@ -215,7 +215,7 @@ public class PlayerInfoOverlay extends WEOverlay {
                 .renderAlignedTextInBox(
                         guiGraphics.pose(),
                         multiBufferSource,
-                        StyledText.fromString(String.valueOf(mana.max())),
+                        new StyledText[] {StyledText.fromString(String.valueOf(mana.max()))},
                         getRenderX() + (font * 2),
                         getRenderX() + getWidth() - 1 - (font * 2),
                         getRenderY() + getHeight() * calculatedRatio + 1,

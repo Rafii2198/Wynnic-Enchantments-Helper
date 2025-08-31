@@ -63,6 +63,9 @@ public class TeamInfoOverlay extends WEContainerOverlay<TeamInfoOverlay.TeamMemb
     @Persisted(i18nKey = "overlay.wynntils.textOverlay.fontScale")
     private final Config<Float> fontScale = new Config<>(0.5f);
 
+    private final FancyPlayerWidget renderWidget =
+            new FancyPlayerWidget(0, 0, 1, 1).setMoving(true).setPose(Pose.STANDING);
+
     public TeamInfoOverlay() {
         super(
                 new OverlayPosition(
@@ -163,8 +166,6 @@ public class TeamInfoOverlay extends WEContainerOverlay<TeamInfoOverlay.TeamMemb
 
     public final class TeamMemberOverlay extends WEOverlay {
         private final HadesUser hadesUser;
-        private final FancyPlayerWidget renderWidget =
-                new FancyPlayerWidget(0, 0, 1, 1).setMoving(true).setPose(Pose.STANDING);
 
         private TeamMemberOverlay(HadesUser hadesUser, float width, float height) {
             super(
@@ -250,8 +251,10 @@ public class TeamInfoOverlay extends WEContainerOverlay<TeamInfoOverlay.TeamMemb
                     .renderAlignedTextInBox(
                             guiGraphics.pose(),
                             multiBufferSource,
-                            StyledText.fromString(
-                                    String.valueOf(hadesUser.getHealth().current())),
+                            new StyledText[] {
+                                StyledText.fromString(
+                                        String.valueOf(hadesUser.getHealth().current()))
+                            },
                             getRenderX() + (font * 2),
                             getRenderX() + getWidth() - 1 - (font * 2),
                             getRenderY() + 2,
@@ -267,8 +270,10 @@ public class TeamInfoOverlay extends WEContainerOverlay<TeamInfoOverlay.TeamMemb
                     .renderAlignedTextInBox(
                             guiGraphics.pose(),
                             multiBufferSource,
-                            StyledText.fromString(
-                                    String.valueOf(hadesUser.getHealth().max())),
+                            new StyledText[] {
+                                StyledText.fromString(
+                                        String.valueOf(hadesUser.getHealth().max()))
+                            },
                             getRenderX() + (font * 2),
                             getRenderX() + getWidth() - 1 - (font * 2),
                             getRenderY() + 2,
@@ -284,8 +289,10 @@ public class TeamInfoOverlay extends WEContainerOverlay<TeamInfoOverlay.TeamMemb
                     .renderAlignedTextInBox(
                             guiGraphics.pose(),
                             multiBufferSource,
-                            StyledText.fromString(
-                                    String.valueOf(hadesUser.getMana().current())),
+                            new StyledText[] {
+                                StyledText.fromString(
+                                        String.valueOf(hadesUser.getMana().current()))
+                            },
                             getRenderX() + (font * 2),
                             getRenderX() + getWidth() - 1 - (font * 2),
                             getRenderY() + getHeight() * calculatedRatio + 1,
@@ -301,8 +308,10 @@ public class TeamInfoOverlay extends WEContainerOverlay<TeamInfoOverlay.TeamMemb
                     .renderAlignedTextInBox(
                             guiGraphics.pose(),
                             multiBufferSource,
-                            StyledText.fromString(
-                                    String.valueOf(hadesUser.getMana().max())),
+                            new StyledText[] {
+                                StyledText.fromString(
+                                        String.valueOf(hadesUser.getMana().max()))
+                            },
                             getRenderX() + (font * 2),
                             getRenderX() + getWidth() - 1 - (font * 2),
                             getRenderY() + getHeight() * calculatedRatio + 1,
@@ -318,7 +327,7 @@ public class TeamInfoOverlay extends WEContainerOverlay<TeamInfoOverlay.TeamMemb
                     .renderAlignedTextInBox(
                             guiGraphics.pose(),
                             multiBufferSource,
-                            StyledText.fromUnformattedString(hadesUser.getName()),
+                            new StyledText[] {StyledText.fromUnformattedString(hadesUser.getName())},
                             getRenderX(),
                             getRenderX() + getWidth(),
                             getRenderY(),
