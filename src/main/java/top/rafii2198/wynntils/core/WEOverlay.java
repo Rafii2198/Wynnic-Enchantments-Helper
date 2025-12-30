@@ -35,7 +35,7 @@ public class WEOverlay extends Overlay {
     }
 
     @Override
-    public String getTranslation(String keySuffix) {
+    public String getTranslation(String keySuffix, Object... parameters) {
         return I18n.get("we-helper." + getTypeName().toLowerCase(Locale.ROOT) + "." + getTranslationKeyName() + "."
                         + keySuffix)
                 + " §2(WE)";

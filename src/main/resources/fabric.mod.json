@@ -28,7 +28,7 @@
 		"java": ">=21",
 		"fabric-api": "*",
 		"fancymenu": ">=3.7.1",
-		"wynntils": ">=3.2.8",
+		"wynntils": ">=3.4.0",
         "fancy_entity_renderer": "^0.3.4"
 	},
 	"custom": {

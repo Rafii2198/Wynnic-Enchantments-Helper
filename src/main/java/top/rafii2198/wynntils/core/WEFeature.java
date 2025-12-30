@@ -1,10 +1,15 @@
 package top.rafii2198.wynntils.core;
 
 import com.wynntils.core.consumers.features.Feature;
+import com.wynntils.core.consumers.features.ProfileDefault;
 import java.util.Locale;
 import net.minecraft.client.resources.language.I18n;
 
 public class WEFeature extends Feature {
+
+    protected WEFeature(ProfileDefault profileDefault) {
+        super(profileDefault);
+    }
 
     @Override
     public String getStorageJsonName() {
@@ -12,7 +17,7 @@ public class WEFeature extends Feature {
     }
 
     @Override
-    public String getTranslation(String keySuffix) {
+    public String getTranslation(String keySuffix, Object... parameters) {
         return I18n.get("we-helper." + getTypeName().toLowerCase(Locale.ROOT) + "." + getTranslationKeyName() + "."
                         + keySuffix)
                 + " §2(WE)";
