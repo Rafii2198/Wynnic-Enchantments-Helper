@@ -10,6 +10,7 @@ import com.wynntils.core.text.StyledText;
 import com.wynntils.utils.MathUtils;
 import com.wynntils.utils.colors.CommonColors;
 import com.wynntils.utils.colors.CustomColor;
+import com.wynntils.utils.mc.McUtils;
 import com.wynntils.utils.render.FontRenderer;
 import com.wynntils.utils.render.RenderUtils;
 import com.wynntils.utils.render.type.HorizontalAlignment;
@@ -99,15 +100,11 @@ public class PlayerInfoOverlay extends WEOverlay {
                     getRenderY(),
                     getHeight(),
                     getHeight());
-            // RenderUtils.createRectMask(
-            //                    guiGraphics.pose(), getRenderX() - getHeight(), getRenderY(), getHeight(),
-            // getHeight());
             RenderUtils.enableScissor(
                     guiGraphics, (int) (getRenderX() - getHeight()), (int) getRenderY(), (int) getHeight(), (int)
                             getHeight());
             renderPlayerEntity(guiGraphics);
             RenderUtils.disableScissor(guiGraphics);
-            // RenderUtils.clearMask();
         }
 
         renderBarsAndText(guiGraphics);
@@ -117,13 +114,13 @@ public class PlayerInfoOverlay extends WEOverlay {
         renderWidget.setHeight((int) (getHeight() * 0.8 * FancyPlayerWidget.PLAYER_RENDER_HEIGHT));
         renderWidget.setX((int) (getRenderX() - getHeight() / 2));
         renderWidget.setY((int) (getRenderY() + getHeight() * 0.2));
-
-        renderWidget.setAllowedPoses(List.of(Pose.STANDING, Pose.CROUCHING));
-        renderWidget.mimicLocalPlayer();
         if (rotatePlayer.get()) {
             renderWidget.setBodyRotation(Rotation.fromDeg(0, degrees.get(), 0));
+        } else {
+            renderWidget.setBodyRotation(0, McUtils.player().getYRot(), 0);
         }
-
+        renderWidget.setAllowedPoses(List.of(Pose.STANDING, Pose.CROUCHING));
+        renderWidget.mimicLocalPlayer();
         renderWidget.render(guiGraphics, 0, 0, 0);
     }
 
