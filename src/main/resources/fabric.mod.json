@@ -23,13 +23,13 @@
 		"we-helper.mixins.json"
 	],
 	"depends": {
-		"fabricloader": ">=0.16.14",
+		"fabricloader": ">=0.18.0",
 		"minecraft": "1.21.11",
 		"java": ">=21",
 		"fabric-api": "*",
-		"fancymenu": ">=3.7.1",
-		"wynntils": ">=3.4.0",
-        "fancy_entity_renderer": "^0.3.4"
+		"fancymenu": ">=3.8.4",
+		"wynntils": ">=4.0.0",
+        "fancy_entity_renderer": ">=0.5.4"
 	},
 	"custom": {
 		"modmenu": {
