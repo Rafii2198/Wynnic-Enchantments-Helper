@@ -187,18 +187,12 @@ public class TeamInfoOverlay extends WEContainerOverlay<TeamInfoOverlay.TeamMemb
                         getRenderY(),
                         getHeight(),
                         getHeight());
-                //                RenderUtils.createRectMask(
-                //                        guiGraphics.pose(), getRenderX() - getHeight(), getRenderY(), getHeight(),
-                // getHeight());
-
                 renderWidget.copyPlayer(hadesUser.getUuid());
                 renderWidget.setHeight((int) (getHeight() * 0.8 * FancyPlayerWidget.PLAYER_RENDER_HEIGHT));
                 renderWidget.setX((int) (getRenderX() - getHeight() / 2));
                 renderWidget.setY((int) (getRenderY() + getHeight() * 0.2));
                 renderWidget.setBodyRotation(Rotation.fromDeg(0, degrees.get(), 0));
                 renderWidget.render(guiGraphics, 0, 0, 0);
-
-                //                RenderUtils.clearMask();
             }
 
             renderBarsAndText(guiGraphics);
