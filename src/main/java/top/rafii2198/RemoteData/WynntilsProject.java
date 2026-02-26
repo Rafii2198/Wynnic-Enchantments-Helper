@@ -7,7 +7,7 @@ import top.rafii2198.Utilities.HttpManager;
 
 public class WynntilsProject {
     private static final String PROJECT = "https://api.modrinth.com/v2/project/dU5Gb9Ab/version?game_versions=[%22"
-            + SharedConstants.getCurrentVersion().getName() + "%22]";
+            + SharedConstants.getCurrentVersion().name() + "%22]";
     private static final ModrinthProject[] Json = HttpManager.getModrinthProject(PROJECT);
 
     public static String getChangelog() {

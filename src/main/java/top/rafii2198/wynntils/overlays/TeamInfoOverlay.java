@@ -1,7 +1,6 @@
 package top.rafii2198.wynntils.overlays;
 
 import com.mojang.blaze3d.platform.Window;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.wynntils.core.components.Models;
 import com.wynntils.core.components.Services;
 import com.wynntils.core.consumers.overlays.ContainerOverlay;
@@ -17,9 +16,8 @@ import com.wynntils.services.hades.event.HadesUserEvent;
 import com.wynntils.utils.MathUtils;
 import com.wynntils.utils.colors.CommonColors;
 import com.wynntils.utils.colors.CustomColor;
+import com.wynntils.utils.render.FontRenderer;
 import com.wynntils.utils.render.RenderUtils;
-import com.wynntils.utils.render.buffered.BufferedFontRenderer;
-import com.wynntils.utils.render.buffered.BufferedRenderUtils;
 import com.wynntils.utils.render.type.HorizontalAlignment;
 import com.wynntils.utils.render.type.TextShadow;
 import com.wynntils.utils.render.type.VerticalAlignment;
@@ -31,7 +29,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.entity.Pose;
 import net.neoforged.bus.api.SubscribeEvent;
 import top.rafii2198.Utilities.WERenderUtils;
@@ -180,55 +177,36 @@ public class TeamInfoOverlay extends WEContainerOverlay<TeamInfoOverlay.TeamMemb
         }
 
         @Override
-        public void render(
-                GuiGraphics guiGraphics, MultiBufferSource bufferSource, DeltaTracker deltaTracker, Window window) {
-            PoseStack poseStack = guiGraphics.pose();
-            poseStack.pushPose();
+        public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker, Window window) {
 
             if (renderPlayer.get()) {
-                BufferedRenderUtils.drawRect(
-                        guiGraphics.pose(),
-                        bufferSource,
+                RenderUtils.drawRect(
+                        guiGraphics,
                         CommonColors.BLACK,
                         getRenderX() - this.getHeight(),
                         getRenderY(),
-                        1,
                         getHeight(),
                         getHeight());
-                RenderUtils.createRectMask(
-                        guiGraphics.pose(), getRenderX() - getHeight(), getRenderY(), getHeight(), getHeight());
-
                 renderWidget.copyPlayer(hadesUser.getUuid());
                 renderWidget.setHeight((int) (getHeight() * 0.8 * FancyPlayerWidget.PLAYER_RENDER_HEIGHT));
                 renderWidget.setX((int) (getRenderX() - getHeight() / 2));
                 renderWidget.setY((int) (getRenderY() + getHeight() * 0.2));
-                renderWidget.setBodyRotation(Rotation.createFromDeg(0, degrees.get(), 0));
+                renderWidget.setBodyRotation(Rotation.fromDeg(0, degrees.get(), 0));
                 renderWidget.render(guiGraphics, 0, 0, 0);
-
-                RenderUtils.clearMask();
             }
 
-            renderBarsAndText(guiGraphics, bufferSource);
-            poseStack.popPose();
+            renderBarsAndText(guiGraphics);
         }
 
-        private void renderBarsAndText(GuiGraphics guiGraphics, MultiBufferSource multiBufferSource) {
+        private void renderBarsAndText(GuiGraphics guiGraphics) {
             float calculatedRatio = MathUtils.clamp(ratio.get(), 0, 100) / 100;
             float font = fontScale.get() * (calculatedRatio + getHeight() / 100);
 
-            BufferedRenderUtils.drawRect(
-                    guiGraphics.pose(),
-                    multiBufferSource,
-                    CommonColors.BLACK,
-                    getRenderX() - 1f,
-                    getRenderY(),
-                    0,
-                    getWidth() + 1f,
-                    getHeight());
+            RenderUtils.drawRect(
+                    guiGraphics, CommonColors.BLACK, getRenderX() - 1f, getRenderY(), getWidth() + 1f, getHeight());
 
             WERenderUtils.drawColoredFlatProgressBar(
-                    guiGraphics.pose(),
-                    multiBufferSource,
+                    guiGraphics,
                     texture.get(),
                     new CustomColor(255, 0, 54),
                     getRenderX(),
@@ -237,8 +215,7 @@ public class TeamInfoOverlay extends WEContainerOverlay<TeamInfoOverlay.TeamMemb
                     getRenderY() + getHeight() * calculatedRatio,
                     (float) hadesUser.getHealth().getProgress());
             WERenderUtils.drawColoredFlatProgressBar(
-                    guiGraphics.pose(),
-                    multiBufferSource,
+                    guiGraphics,
                     texture.get(),
                     new CustomColor(0, 182, 255),
                     getRenderX(),
@@ -247,10 +224,9 @@ public class TeamInfoOverlay extends WEContainerOverlay<TeamInfoOverlay.TeamMemb
                     getRenderY() + getHeight() - 1,
                     (float) hadesUser.getMana().getProgress());
 
-            BufferedFontRenderer.getInstance()
+            FontRenderer.getInstance()
                     .renderAlignedTextInBox(
-                            guiGraphics.pose(),
-                            multiBufferSource,
+                            guiGraphics,
                             new StyledText[] {
                                 StyledText.fromString(
                                         String.valueOf(hadesUser.getHealth().current()))
@@ -266,10 +242,9 @@ public class TeamInfoOverlay extends WEContainerOverlay<TeamInfoOverlay.TeamMemb
                             TextShadow.OUTLINE,
                             font);
 
-            BufferedFontRenderer.getInstance()
+            FontRenderer.getInstance()
                     .renderAlignedTextInBox(
-                            guiGraphics.pose(),
-                            multiBufferSource,
+                            guiGraphics,
                             new StyledText[] {
                                 StyledText.fromString(
                                         String.valueOf(hadesUser.getHealth().max()))
@@ -285,10 +260,9 @@ public class TeamInfoOverlay extends WEContainerOverlay<TeamInfoOverlay.TeamMemb
                             TextShadow.OUTLINE,
                             font);
 
-            BufferedFontRenderer.getInstance()
+            FontRenderer.getInstance()
                     .renderAlignedTextInBox(
-                            guiGraphics.pose(),
-                            multiBufferSource,
+                            guiGraphics,
                             new StyledText[] {
                                 StyledText.fromString(
                                         String.valueOf(hadesUser.getMana().current()))
@@ -304,10 +278,9 @@ public class TeamInfoOverlay extends WEContainerOverlay<TeamInfoOverlay.TeamMemb
                             TextShadow.OUTLINE,
                             (1 - calculatedRatio + getHeight() / 100) * fontScale.get());
 
-            BufferedFontRenderer.getInstance()
+            FontRenderer.getInstance()
                     .renderAlignedTextInBox(
-                            guiGraphics.pose(),
-                            multiBufferSource,
+                            guiGraphics,
                             new StyledText[] {
                                 StyledText.fromString(
                                         String.valueOf(hadesUser.getMana().max()))
@@ -323,10 +296,9 @@ public class TeamInfoOverlay extends WEContainerOverlay<TeamInfoOverlay.TeamMemb
                             TextShadow.OUTLINE,
                             (1 - calculatedRatio + getHeight() / 100) * fontScale.get());
 
-            BufferedFontRenderer.getInstance()
+            FontRenderer.getInstance()
                     .renderAlignedTextInBox(
-                            guiGraphics.pose(),
-                            multiBufferSource,
+                            guiGraphics,
                             new StyledText[] {StyledText.fromUnformattedString(hadesUser.getName())},
                             getRenderX(),
                             getRenderX() + getWidth(),

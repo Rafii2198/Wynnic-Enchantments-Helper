@@ -9,7 +9,6 @@ import com.wynntils.utils.render.type.VerticalAlignment;
 import java.util.Locale;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.resources.language.I18n;
 
 public class WEOverlay extends Overlay {
@@ -23,8 +22,7 @@ public class WEOverlay extends Overlay {
     }
 
     @Override
-    public void render(
-            GuiGraphics guiGraphics, MultiBufferSource multiBufferSource, DeltaTracker deltaTracker, Window window) {}
+    public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker, Window window) {}
 
     protected WEOverlay(OverlayPosition position, OverlaySize size) {
         super(position, size);
