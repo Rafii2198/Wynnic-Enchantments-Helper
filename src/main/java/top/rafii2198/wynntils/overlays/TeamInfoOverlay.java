@@ -180,19 +180,26 @@ public class TeamInfoOverlay extends WEContainerOverlay<TeamInfoOverlay.TeamMemb
         public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker, Window window) {
 
             if (renderPlayer.get()) {
+
                 RenderUtils.drawRect(
                         guiGraphics,
                         CommonColors.BLACK,
-                        getRenderX() - this.getHeight(),
+                        getRenderX() - getHeight(),
                         getRenderY(),
                         getHeight(),
                         getHeight());
+
+                RenderUtils.enableScissor(
+                        guiGraphics, (int) (getRenderX() - getHeight()), (int) getRenderY(), (int) getHeight(), (int)
+                                getHeight());
+
                 renderWidget.copyPlayer(hadesUser.getUuid());
                 renderWidget.setHeight((int) (getHeight() * 0.8 * FancyPlayerWidget.PLAYER_RENDER_HEIGHT));
                 renderWidget.setX((int) (getRenderX() - getHeight() / 2));
                 renderWidget.setY((int) (getRenderY() + getHeight() * 0.2));
                 renderWidget.setBodyRotation(Rotation.fromDeg(0, degrees.get(), 0));
                 renderWidget.render(guiGraphics, 0, 0, 0);
+                RenderUtils.disableScissor(guiGraphics);
             }
 
             renderBarsAndText(guiGraphics);
@@ -211,17 +218,17 @@ public class TeamInfoOverlay extends WEContainerOverlay<TeamInfoOverlay.TeamMemb
                     new CustomColor(255, 0, 54),
                     getRenderX(),
                     getRenderY() + 1,
-                    getRenderX() + getWidth() - 1f,
-                    getRenderY() + getHeight() * calculatedRatio,
+                    getWidth() - 1f,
+                    getHeight() * calculatedRatio,
                     (float) hadesUser.getHealth().getProgress());
             WERenderUtils.drawColoredFlatProgressBar(
                     guiGraphics,
                     texture.get(),
                     new CustomColor(0, 182, 255),
                     getRenderX(),
-                    getRenderY() + getHeight() * calculatedRatio + 1f,
-                    getRenderX() + getWidth() - 1,
-                    getRenderY() + getHeight() - 1,
+                    getRenderY() + getHeight() * calculatedRatio + 2f,
+                    getWidth() - 1,
+                    getHeight() * (1 - calculatedRatio) - 3f,
                     (float) hadesUser.getMana().getProgress());
 
             FontRenderer.getInstance()
