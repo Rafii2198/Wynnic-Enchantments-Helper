@@ -9,6 +9,7 @@ import top.rafii2198.FMElements.WynnicChangelogPlaceholder;
 import top.rafii2198.FMElements.WynnicVersionPlaceholder;
 import top.rafii2198.FMElements.WynntilsChangelogPlaceholder;
 import top.rafii2198.FMElements.WynntilsVersionPlaceholder;
+import top.rafii2198.RemoteData.RemoteManager;
 
 public class Wehelper implements ModInitializer {
     public static final String MOD_ID = "we-helper";
@@ -18,6 +19,7 @@ public class Wehelper implements ModInitializer {
         // This code runs as soon as Minecraft is in a mod-load-ready state.
         // However, some things (like resources) may still be uninitialized.
         // Proceed with mild caution.
+        RemoteManager.init();
 
         if (Services.PLATFORM.isOnClient()) {
             PlaceholderRegistry.register(new WynncraftNewsPlaceholder());

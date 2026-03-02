@@ -1,12 +1,14 @@
 package top.rafii2198.FMElements;
 
+import com.wynntils.utils.type.ErrorOr;
 import de.keksuccino.fancymenu.customization.placeholder.DeserializedPlaceholderString;
 import de.keksuccino.fancymenu.customization.placeholder.Placeholder;
 import java.util.List;
 import net.minecraft.client.resources.language.I18n;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import top.rafii2198.RemoteData.WynntilsProject;
+import top.rafii2198.RemoteData.RemoteManager;
+import top.rafii2198.RemoteData.Types.ModrinthProject;
 
 public class WynntilsVersionPlaceholder extends Placeholder {
     public WynntilsVersionPlaceholder() {
@@ -15,7 +17,10 @@ public class WynntilsVersionPlaceholder extends Placeholder {
 
     @Override
     public String getReplacementFor(DeserializedPlaceholderString deserializedPlaceholderString) {
-        return WynntilsProject.getVersion();
+        ErrorOr<ModrinthProject[]> data = RemoteManager.Wynntils.get();
+        if (data == null) return "Loading...";
+        if (data.hasError()) return "Error while loading Wynntils version \n" + data.getError();
+        return data.getValue()[0].getVersion_number();
     }
 
     @Override
