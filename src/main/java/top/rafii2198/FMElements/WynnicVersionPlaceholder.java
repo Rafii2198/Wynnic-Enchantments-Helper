@@ -3,6 +3,7 @@ package top.rafii2198.FMElements;
 import com.wynntils.utils.type.ErrorOr;
 import de.keksuccino.fancymenu.customization.placeholder.DeserializedPlaceholderString;
 import de.keksuccino.fancymenu.customization.placeholder.Placeholder;
+import java.util.Arrays;
 import java.util.List;
 import net.minecraft.client.resources.language.I18n;
 import org.jetbrains.annotations.NotNull;
@@ -21,7 +22,11 @@ public class WynnicVersionPlaceholder extends Placeholder {
         ErrorOr<ModrinthProject[]> data = RemoteManager.WynnicEnchantments.get();
         if (data == null) return "Loading...";
         if (data.hasError()) return "Error while loading Wynnic Enchantments version \n" + data.getError();
-        return data.getValue()[0].getVersion_number();
+        return Arrays.stream(data.getValue())
+                .filter(v -> v.getVersion_type().equals("beta"))
+                .map(ModrinthProject::getVersion_number)
+                .findFirst()
+                .orElse("");
     }
 
     @Override
