@@ -19,9 +19,10 @@ public final class RemoteManager {
     public static final RemoteJson.Single<WynncraftNewsApi> WynncraftNews = new RemoteJson.Single<>(
             "https://api.wynncraft.com/v3/publisher/articles/list/article", HTTP_CLIENT, WynncraftNewsApi.class);
 
-    public final List<? extends RemoteJson.Base> All_Remotes = List.of(WynnicEnchantments, Wynntils, WynncraftNews);
+    public static final List<? extends RemoteJson.Base> All_Remotes =
+            List.of(WynnicEnchantments, Wynntils, WynncraftNews);
 
-    public void ForceRequestAll() {
+    public static void ForceRequestAll() {
         All_Remotes.forEach(remoteJson -> remoteJson.Request(true));
     }
 

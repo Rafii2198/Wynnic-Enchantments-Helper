@@ -38,5 +38,7 @@
   "we-helper.we-overlay.teamInfoOverlay.renderPlayer.description": "Whether the portrait of your character should be shown. Disable if you face performance issues",
   "we-helper.we-overlay.teamInfoOverlay.renderPlayer.name": "Show portrait",
   "we-helper.we-overlay.teamInfoOverlay.degrees.description": "Degrees to which your character will be locked to",
-  "we-helper.we-overlay.teamInfoOverlay.degrees.name": "Rotation degrees"
+  "we-helper.we-overlay.teamInfoOverlay.degrees.name": "Rotation degrees",
+  "we-helper.fm.action.we-force-request": "WE - Force Request",
+  "we-helper.fm.action.we-force-request.desc": "Refetch all news sections"
 }

@@ -1,14 +1,16 @@
 package top.rafii2198;
 
+import de.keksuccino.fancymenu.customization.action.ActionRegistry;
 import de.keksuccino.fancymenu.customization.placeholder.PlaceholderRegistry;
 import de.keksuccino.fancymenu.platform.Services;
 import net.fabricmc.api.ModInitializer;
-import top.rafii2198.FMElements.WynncraftNewsPlaceholder;
-import top.rafii2198.FMElements.WynncraftRemoveBadgePathPlaceholder;
-import top.rafii2198.FMElements.WynnicChangelogPlaceholder;
-import top.rafii2198.FMElements.WynnicVersionPlaceholder;
-import top.rafii2198.FMElements.WynntilsChangelogPlaceholder;
-import top.rafii2198.FMElements.WynntilsVersionPlaceholder;
+import top.rafii2198.FancyMenu.Actions.ForceRequestAction;
+import top.rafii2198.FancyMenu.Placeholders.WynncraftNewsPlaceholder;
+import top.rafii2198.FancyMenu.Placeholders.WynncraftRemoveBadgePathPlaceholder;
+import top.rafii2198.FancyMenu.Placeholders.WynnicChangelogPlaceholder;
+import top.rafii2198.FancyMenu.Placeholders.WynnicVersionPlaceholder;
+import top.rafii2198.FancyMenu.Placeholders.WynntilsChangelogPlaceholder;
+import top.rafii2198.FancyMenu.Placeholders.WynntilsVersionPlaceholder;
 import top.rafii2198.RemoteData.RemoteManager;
 
 public class Wehelper implements ModInitializer {
@@ -22,6 +24,8 @@ public class Wehelper implements ModInitializer {
         RemoteManager.init();
 
         if (Services.PLATFORM.isOnClient()) {
+            ActionRegistry.register(new ForceRequestAction());
+
             PlaceholderRegistry.register(new WynncraftNewsPlaceholder());
             PlaceholderRegistry.register(new WynncraftRemoveBadgePathPlaceholder());
             PlaceholderRegistry.register(new WynnicChangelogPlaceholder());
