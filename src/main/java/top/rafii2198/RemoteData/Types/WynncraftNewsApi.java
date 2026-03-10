@@ -1,15 +1,48 @@
 package top.rafii2198.RemoteData.Types;
 
+import com.google.gson.annotations.SerializedName;
+import java.text.MessageFormat;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class WynncraftNewsApi {
-    private results results;
-    private List<results.id> id;
+    private Results results;
 
-    private static class results {
-        private static class id {
+    private class Results {
+        @SerializedName("1")
+        private Id a;
+
+        @SerializedName("2")
+        private Id b;
+
+        @SerializedName("3")
+        private Id c;
+
+        @SerializedName("4")
+        private Id d;
+
+        @SerializedName("5")
+        private Id e;
+
+        @SerializedName("6")
+        private Id f;
+
+        @SerializedName("7")
+        private Id g;
+
+        @SerializedName("8")
+        private Id h;
+
+        @SerializedName("9")
+        private Id i;
+
+        @SerializedName("10")
+        private Id j;
+
+        private class Id {
+            private int pk;
             private String title;
-            private String banner;
             private String recap;
             private boolean visible;
             private boolean pinned;
@@ -17,17 +50,35 @@ public class WynncraftNewsApi {
         }
     }
 
-    public String formattedNews() {
-        StringBuilder builder = new StringBuilder();
-        id.forEach(a -> {
-            builder.append(a.title);
-            builder.append("\n");
-            builder.append(a.banner);
-            builder.append("\n");
-            builder.append(a.recap);
-            builder.append("\n");
-            builder.append(a.published_at);
+    public String getFormattedNews() {
+        List<Results.Id> all_ids = List.of(
+                results.a, results.b, results.c, results.d, results.e, results.f, results.g, results.h, results.i,
+                results.j);
+        List<String> formattedNews = new java.util.ArrayList<>(List.of());
+        DateTimeFormatter DateFormat = DateTimeFormatter.ofPattern("LLLL dd uuu");
+        all_ids.stream().filter(id -> id != null && id.visible).forEachOrdered(id -> {
+            ZonedDateTime published = ZonedDateTime.parse(id.published_at, DateTimeFormatter.ISO_ZONED_DATE_TIME);
+            formattedNews.add(
+                    MessageFormat.format("""
+                            *%#b0b0b0%{0}%#%*
+                            ### [{1}]({2})
+                            {3}
+                            """, DateFormat.format(published), id.title, id.pk, id.recap)
+                    //                    "*%#b0b0b0%" + DateFormat.format(published)
+                    //                    + "%#%*\n" + "### "
+                    //                    + "[" + id.title
+                    //                    + "](https://wynncraft.com/news/blog/" + id.pk + ")\n" + id.recap
+                    );
         });
-        return builder.toString();
+
+        return String.join("\n\n---\n\n", formattedNews);
     }
+
+    //    private String formatNews(String title, String date, int pk, String recap){
+    //        return MessageFormat.format(
+    //                """
+    //                      *%#b0b0b0%{1}
+    //                    """, title, str
+    //        );
+    //    }
 }

@@ -12,16 +12,23 @@ import top.rafii2198.RemoteData.Types.WynncraftNewsApi;
 
 public class WynncraftNewsPlaceholder extends Placeholder {
 
+    private String cachedString = "";
+    private WynncraftNewsApi cachedResponse;
+
     public WynncraftNewsPlaceholder() {
         super("wynncraft-news");
     }
 
     @Override
     public String getReplacementFor(DeserializedPlaceholderString deserializedPlaceholderString) {
-        ErrorOr<WynncraftNewsApi[]> data = RemoteManager.WynncraftNews.get();
+        ErrorOr<WynncraftNewsApi> data = RemoteManager.WynncraftNews.get();
         if (data == null) return "Loading...";
         if (data.hasError()) return "Error while loading Wynncraft News \n" + data.getError();
-        return data.getValue()[0].formattedNews();
+        if (cachedResponse == null || cachedString == null || cachedResponse != data.getValue()) {
+            cachedResponse = data.getValue();
+            cachedString = data.getValue().getFormattedNews();
+        }
+        return cachedString;
     }
 
     @Override
