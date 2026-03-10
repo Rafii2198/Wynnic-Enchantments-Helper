@@ -1,4 +1,4 @@
-package top.rafii2198.FMElements;
+package top.rafii2198.FancyMenu.Placeholders;
 
 import com.wynntils.utils.type.ErrorOr;
 import de.keksuccino.fancymenu.customization.placeholder.DeserializedPlaceholderString;
@@ -11,20 +11,20 @@ import org.jetbrains.annotations.Nullable;
 import top.rafii2198.RemoteData.RemoteManager;
 import top.rafii2198.RemoteData.Types.ModrinthProject;
 
-public class WynnicVersionPlaceholder extends Placeholder {
+public class WynntilsChangelogPlaceholder extends Placeholder {
 
-    public WynnicVersionPlaceholder() {
-        super("we-version");
+    public WynntilsChangelogPlaceholder() {
+        super("wynntils-changelog");
     }
 
     @Override
     public String getReplacementFor(DeserializedPlaceholderString deserializedPlaceholderString) {
-        ErrorOr<ModrinthProject[]> data = RemoteManager.WynnicEnchantments.get();
+        ErrorOr<ModrinthProject[]> data = RemoteManager.Wynntils.get();
         if (data == null) return "Loading...";
-        if (data.hasError()) return "Error while loading Wynnic Enchantments version \n" + data.getError();
+        if (data.hasError()) return "Error while loading Wynntils Changelog \n" + data.getError();
         return Arrays.stream(data.getValue())
-                .filter(v -> v.getVersion_type().equals("beta"))
-                .map(ModrinthProject::getVersion_number)
+                .filter(v -> v.getVersion_type().equals("release"))
+                .map(ModrinthProject::getChangelog)
                 .findFirst()
                 .orElse("");
     }
@@ -36,17 +36,17 @@ public class WynnicVersionPlaceholder extends Placeholder {
 
     @Override
     public @NotNull String getDisplayName() {
-        return I18n.get("we-helper.editor.dynamicvariabletextfield.variables.we-version");
+        return I18n.get("we-helper.fm.placeholder.wynntils-changelog");
     }
 
     @Override
     public @Nullable List<String> getDescription() {
-        return List.of(I18n.get("we-helper.editor.dynamicvariabletextfield.variables.we-version.desc"));
+        return List.of(I18n.get("we-helper.fm.placeholder.wynntils-changelog.desc"));
     }
 
     @Override
     public String getCategory() {
-        return I18n.get("we-helper.editor.dynamicvariabletextfield.categories.we-helper");
+        return I18n.get("we-helper.fm.placeholder.categories.we-helper");
     }
 
     @Override

@@ -1,4 +1,4 @@
-package top.rafii2198.FMElements;
+package top.rafii2198.FancyMenu.Placeholders;
 
 import com.wynntils.utils.type.ErrorOr;
 import de.keksuccino.fancymenu.customization.placeholder.DeserializedPlaceholderString;
@@ -38,17 +38,17 @@ public class WynncraftNewsPlaceholder extends Placeholder {
 
     @Override
     public @NotNull String getDisplayName() {
-        return I18n.get("we-helper.editor.dynamicvariabletextfield.variables.wynncraft-news");
+        return I18n.get("we-helper.fm.placeholder.wynncraft-news");
     }
 
     @Override
     public @Nullable List<String> getDescription() {
-        return List.of(I18n.get("we-helper.editor.dynamicvariabletextfield.variables.wynncraft-news.desc"));
+        return List.of(I18n.get("we-helper.fm.placeholder.wynncraft-news.desc"));
     }
 
     @Override
     public String getCategory() {
-        return I18n.get("we-helper.editor.dynamicvariabletextfield.categories.we-helper");
+        return I18n.get("we-helper.fm.placeholder.categories.we-helper");
     }
 
     @Override

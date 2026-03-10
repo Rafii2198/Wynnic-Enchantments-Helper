@@ -1,4 +1,4 @@
-package top.rafii2198.FMElements;
+package top.rafii2198.FancyMenu.Placeholders;
 
 import de.keksuccino.fancymenu.customization.placeholder.DeserializedPlaceholderString;
 import de.keksuccino.fancymenu.customization.placeholder.Placeholder;
@@ -27,18 +27,17 @@ public class WynncraftRemoveBadgePathPlaceholder extends Placeholder {
 
     @Override
     public @NotNull String getDisplayName() {
-        return I18n.get("we-helper.editor.dynamicvariabletextfield.variables.wynncraft-wynncraft-remove-badge-path");
+        return I18n.get("we-helper.fm.placeholder.wynncraft-wynncraft-remove-badge-path");
     }
 
     @Override
     public @Nullable List<String> getDescription() {
-        return List.of(I18n.get(
-                "we-helper.editor.dynamicvariabletextfield.variables.wynncraft-wynncraft-remove-badge-path.desc"));
+        return List.of(I18n.get("we-helper.fm.placeholder.wynncraft-wynncraft-remove-badge-path.desc"));
     }
 
     @Override
     public String getCategory() {
-        return I18n.get("we-helper.editor.dynamicvariabletextfield.categories.we-helper");
+        return I18n.get("we-helper.fm.placeholder.categories.we-helper");
     }
 
     @Override
