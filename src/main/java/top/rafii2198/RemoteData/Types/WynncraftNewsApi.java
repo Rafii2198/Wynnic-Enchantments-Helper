@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 import java.text.MessageFormat;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.List;
 
 public class WynncraftNewsApi {
@@ -55,30 +56,17 @@ public class WynncraftNewsApi {
                 results.a, results.b, results.c, results.d, results.e, results.f, results.g, results.h, results.i,
                 results.j);
         List<String> formattedNews = new java.util.ArrayList<>(List.of());
-        DateTimeFormatter DateFormat = DateTimeFormatter.ofPattern("LLLL dd uuu");
         all_ids.stream().filter(id -> id != null && id.visible).forEachOrdered(id -> {
             ZonedDateTime published = ZonedDateTime.parse(id.published_at, DateTimeFormatter.ISO_ZONED_DATE_TIME);
-            formattedNews.add(
-                    MessageFormat.format("""
+            formattedNews.add(MessageFormat.format(
+                    """
                             *%#b0b0b0%{0}%#%*
                             ### [{1}]({2})
                             {3}
-                            """, DateFormat.format(published), id.title, id.pk, id.recap)
-                    //                    "*%#b0b0b0%" + DateFormat.format(published)
-                    //                    + "%#%*\n" + "### "
-                    //                    + "[" + id.title
-                    //                    + "](https://wynncraft.com/news/blog/" + id.pk + ")\n" + id.recap
-                    );
+                            """,
+                    DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG).format(published), id.title, id.pk, id.recap));
         });
 
         return String.join("\n\n---\n\n", formattedNews);
     }
-
-    //    private String formatNews(String title, String date, int pk, String recap){
-    //        return MessageFormat.format(
-    //                """
-    //                      *%#b0b0b0%{1}
-    //                    """, title, str
-    //        );
-    //    }
 }
