@@ -25,7 +25,8 @@ public class WynntilsVersionPlaceholder extends Placeholder {
                 .filter(v -> v.getVersion_type().equals("release"))
                 .map(ModrinthProject::getVersion_number)
                 .findFirst()
-                .orElse("");
+                .orElse("")
+                .replace("v", "");
     }
 
     @Override
