@@ -60,9 +60,6 @@ public class TeamInfoOverlay extends WEContainerOverlay<TeamInfoOverlay.TeamMemb
     @Persisted(i18nKey = "overlay.wynntils.textOverlay.fontScale")
     private final Config<Float> fontScale = new Config<>(0.5f);
 
-    private final FancyPlayerWidget renderWidget =
-            new FancyPlayerWidget(0, 0, 1, 1).setMoving(true).setPose(Pose.STANDING);
-
     public TeamInfoOverlay() {
         super(
                 new OverlayPosition(
@@ -163,6 +160,8 @@ public class TeamInfoOverlay extends WEContainerOverlay<TeamInfoOverlay.TeamMemb
 
     public final class TeamMemberOverlay extends WEOverlay {
         private final HadesUser hadesUser;
+        private final FancyPlayerWidget renderWidget =
+                new FancyPlayerWidget(0, 0, 1, 1).setMoving(true).setPose(Pose.STANDING);
 
         private TeamMemberOverlay(HadesUser hadesUser, float width, float height) {
             super(
@@ -174,6 +173,9 @@ public class TeamInfoOverlay extends WEContainerOverlay<TeamInfoOverlay.TeamMemb
                             OverlayPosition.AnchorSection.TOP_LEFT),
                     new OverlaySize(width, height));
             this.hadesUser = hadesUser;
+
+            renderWidget.copyPlayer(hadesUser.getUuid());
+            renderWidget.setBodyRotation(Rotation.fromDeg(0, degrees.get(), 0));
         }
 
         @Override
@@ -193,11 +195,9 @@ public class TeamInfoOverlay extends WEContainerOverlay<TeamInfoOverlay.TeamMemb
                         guiGraphics, (int) (getRenderX() - getHeight()), (int) getRenderY(), (int) getHeight(), (int)
                                 getHeight());
 
-                renderWidget.copyPlayer(hadesUser.getUuid());
                 renderWidget.setHeight((int) (getHeight() * 0.8 * FancyPlayerWidget.PLAYER_RENDER_HEIGHT));
                 renderWidget.setX((int) (getRenderX() - getHeight() / 2));
                 renderWidget.setY((int) (getRenderY() + getHeight() * 0.2));
-                renderWidget.setBodyRotation(Rotation.fromDeg(0, degrees.get(), 0));
                 renderWidget.render(guiGraphics, 0, 0, 0);
                 RenderUtils.disableScissor(guiGraphics);
             }
