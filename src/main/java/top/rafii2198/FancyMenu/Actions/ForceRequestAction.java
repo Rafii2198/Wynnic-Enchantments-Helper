@@ -2,7 +2,6 @@ package top.rafii2198.FancyMenu.Actions;
 
 import de.keksuccino.fancymenu.customization.action.Action;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import top.rafii2198.RemoteData.RemoteManager;
@@ -24,13 +23,13 @@ public class ForceRequestAction extends Action {
     }
 
     @Override
-    public @NotNull Component getActionDisplayName() {
+    public @NotNull Component getDisplayName() {
         return Component.translatable("we-helper.fm.action.we-force-request");
     }
 
     @Override
-    public @NotNull Component[] getActionDescription() {
-        return new MutableComponent[] {Component.translatable("we-helper.fm.action.we-force-request.desc")};
+    public @NotNull Component getDescription() {
+        return Component.translatable("we-helper.fm.action.we-force-request.desc");
     }
 
     @Override
@@ -39,7 +38,7 @@ public class ForceRequestAction extends Action {
     }
 
     @Override
-    public @Nullable String getValueExample() {
+    public @Nullable String getValuePreset() {
         return null;
     }
 }
